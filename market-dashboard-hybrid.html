@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Snapshot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #ffffff;
+            padding: 12px;
+            color: #1a1a1a;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            margin-bottom: 12px;
+            font-size: 11px;
+            color: #666;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+        
+        thead {
+            background: #f5f5f5;
+        }
+        
+        th {
+            text-align: left;
+            padding: 8px 12px;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        th.right {
+            text-align: right;
+        }
+        
+        td {
+            padding: 6px 12px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        td.right {
+            text-align: right;
+        }
+        
+        tr:hover {
+            background: #fafafa;
+        }
+        
+        .positive {
+            color: #16a34a;
+            font-weight: 500;
+        }
+        
+        .negative {
+            color: #dc2626;
+            font-weight: 500;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+        
+        .error {
+            color: #999;
+        }
+        
+        .section-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+            margin-top: 20px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .tradingview-section {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header" id="lastUpdated">Loading...</div>
+        
+        <!-- Finnhub Data (WTI & Henry Hub) -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th class="right">Last</th>
+                    <th class="right">Change</th>
+                    <th class="right">Change %</th>
+                </tr>
+            </thead>
+            <tbody id="dataTable">
+                <tr>
+                    <td colspan="4" class="loading">Loading market data...</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- TradingView Data (Everything else) -->
+        <div class="tradingview-section">
+            <div class="tradingview-widget-container">
+                <div class="tradingview-widget-container__widget"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js" async>
+                {
+                    "colorTheme": "light",
+                    "dateRange": "1D",
+                    "showChart": false,
+                    "locale": "en",
+                    "width": "100%",
+                    "height": "550",
+                    "largeChartUrl": "",
+                    "isTransparent": false,
+                    "showSymbolLogo": false,
+                    "showFloatingTooltip": false,
+                    "plotLineColorGrowing": "rgba(41, 98, 255, 1)",
+                    "plotLineColorFalling": "rgba(41, 98, 255, 1)",
+                    "gridLineColor": "rgba(240, 243, 250, 0)",
+                    "scaleFontColor": "rgba(106, 109, 120, 1)",
+                    "belowLineFillColorGrowing": "rgba(41, 98, 255, 0.12)",
+                    "belowLineFillColorFalling": "rgba(41, 98, 255, 0.12)",
+                    "belowLineFillColorGrowingBottom": "rgba(41, 98, 255, 0)",
+                    "belowLineFillColorFallingBottom": "rgba(41, 98, 255, 0)",
+                    "symbolActiveColor": "rgba(41, 98, 255, 0.12)",
+                    "tabs": [
+                        {
+                            "title": "FX & Crypto",
+                            "symbols": [
+                                {
+                                    "s": "FX_IDC:USDCAD",
+                                    "d": "USD/CAD"
+                                },
+                                {
+                                    "s": "COINBASE:BTCUSD",
+                                    "d": "Bitcoin"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Indices",
+                            "symbols": [
+                                {
+                                    "s": "FOREXCOM:SPXUSD",
+                                    "d": "S&P 500"
+                                },
+                                {
+                                    "s": "TSX:TSX",
+                                    "d": "S&P/TSX Composite"
+                                },
+                                {
+                                    "s": "FOREXCOM:DJI",
+                                    "d": "Dow Jones"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "TSX Energy",
+                            "symbols": [
+                                {
+                                    "s": "TSX:CNQ",
+                                    "d": "Canadian Natural Resources"
+                                },
+                                {
+                                    "s": "TSX:BTE",
+                                    "d": "Baytex Energy"
+                                },
+                                {
+                                    "s": "TSX:OVV",
+                                    "d": "Ovintiv"
+                                },
+                                {
+                                    "s": "TSX:CVE",
+                                    "d": "Cenovus Energy"
+                                },
+                                {
+                                    "s": "TSX:BIR",
+                                    "d": "Birchcliff Energy"
+                                },
+                                {
+                                    "s": "TSX:AAV",
+                                    "d": "Advantage Energy"
+                                },
+                                {
+                                    "s": "TSX:TOU",
+                                    "d": "Tourmaline Oil"
+                                },
+                                {
+                                    "s": "TSX:POU",
+                                    "d": "Paramount Resources"
+                                }
+                            ]
+                        }
+                    ]
+                }
+                </script>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const FINNHUB_API_KEY = 'd67bev9r01qmckkcqcugd67bev9r01qmckkcqcv0';
+        
+        // Only fetch WTI and Henry Hub from Finnhub
+        const finnhubSymbols = [
+            { finnhubSymbol: 'CL', name: 'WTI Crude Oil' },
+            { finnhubSymbol: 'NG', name: 'Henry Hub Nat Gas' }
+        ];
+
+        async function fetchQuote(item) {
+            try {
+                const url = `https://finnhub.io/api/v1/quote?symbol=${encodeURIComponent(item.finnhubSymbol)}&token=${FINNHUB_API_KEY}`;
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.c && data.pc) {
+                    const currentPrice = data.c;
+                    const previousClose = data.pc;
+                    const change = currentPrice - previousClose;
+                    const changePercent = (change / previousClose) * 100;
+                    
+                    return {
+                        price: currentPrice,
+                        change: change,
+                        changePercent: changePercent
+                    };
+                }
+                throw new Error('Invalid data');
+            } catch (error) {
+                console.error(`Error fetching ${item.finnhubSymbol}:`, error);
+                return null;
+            }
+        }
+
+        function formatPrice(price) {
+            if (!price && price !== 0) return '--';
+            return price.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+
+        function formatChange(change) {
+            if (!change && change !== 0) return '--';
+            const sign = change >= 0 ? '+' : '';
+            return sign + change.toFixed(2);
+        }
+
+        function formatChangePercent(changePercent) {
+            if (!changePercent && changePercent !== 0) return '--';
+            const sign = changePercent >= 0 ? '+' : '';
+            return sign + changePercent.toFixed(2) + '%';
+        }
+
+        function getChangeClass(value) {
+            if (!value && value !== 0) return '';
+            return value >= 0 ? 'positive' : 'negative';
+        }
+
+        function createRow(item, quote) {
+            if (!quote) {
+                return `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td class="right error">--</td>
+                        <td class="right error">--</td>
+                        <td class="right error">--</td>
+                    </tr>
+                `;
+            }
+            
+            const changeClass = getChangeClass(quote.change);
+            
+            return `
+                <tr>
+                    <td>${item.name}</td>
+                    <td class="right">${formatPrice(quote.price)}</td>
+                    <td class="right ${changeClass}">${formatChange(quote.change)}</td>
+                    <td class="right ${changeClass}">${formatChangePercent(quote.changePercent)}</td>
+                </tr>
+            `;
+        }
+
+        async function loadData() {
+            const updateTime = new Date().toLocaleString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            document.getElementById('lastUpdated').textContent = `Last updated: ${updateTime}`;
+
+            const tableBody = document.getElementById('dataTable');
+            tableBody.innerHTML = '<tr><td colspan="4" class="loading">Loading...</td></tr>';
+
+            const rows = [];
+            for (const item of finnhubSymbols) {
+                const quote = await fetchQuote(item);
+                rows.push(createRow(item, quote));
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+            
+            tableBody.innerHTML = rows.join('');
+        }
+
+        // Initial load
+        loadData();
+
+        // Refresh every 5 minutes
+        setInterval(loadData, 5 * 60 * 1000);
+    </script>
+</body>
+</html>
